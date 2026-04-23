@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CFA 2026 L1 Review</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CFA Review">
+<meta name="theme-color" content="#f7f5f0">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --border: #e2ddd6;
+    --text-primary: #1a1714;
+    --text-muted: #9e9894;
+    --font: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
+  }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+    -webkit-text-size-adjust: 100%;
+    word-break: keep-all;
+  }
+  .app-header {
+    padding: 1.75rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .app-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .app-title {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  .subject-section {
+    padding: 1rem 1.25rem 0;
+  }
+  .subject-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+  .reading-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .reading-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reading-card:active { background: #f0ede8; }
+  .reading-card.inactive {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .reading-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    min-width: 20px;
+  }
+  .reading-title {
+    flex: 1;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .reading-arrow {
+    color: var(--border);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 1.25rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <p class="app-eyebrow">CFA 2026 Level I</p>
+  <h1 class="app-title">Quiz Review</h1>
+</div>
+
+<div class="subject-section">
+  <p class="subject-label">Quantitative Methods</p>
+  <div class="reading-list">
+    <a class="reading-card" href="Reading1_Review_iPad.html">
+      <span class="reading-num">R1</span>
+      <span class="reading-title">Rates and Returns</span>
+      <span class="reading-arrow">›</span>
+    </a>
+    <div class="reading-card inactive">
+      <span class="reading-num">R2</span>
+      <span class="reading-title">Time Value of Money</span>
+    </div>
+    <div class="reading-card inactive">
+      <span class="reading-num">R3</span>
+      <span class="reading-title">Statistical Measures</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="subject-section">
+  <p class="subject-label">Fixed Income</p>
+  <div class="reading-list">
+    <div class="reading-card inactive">
+      <span class="reading-num">R4</span>
+      <span class="reading-title">Fixed-Income Securities</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
