@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CFA Review</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CFA Review">
+<meta name="theme-color" content="#f7f5f0">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --border: #e2ddd6;
+    --text-primary: #1a1714;
+    --text-secondary: #6b6460;
+    --text-muted: #9e9894;
+    --correct: #1a6644;
+    --correct-bg: #eaf5ee;
+    --correct-border: #a8d5bc;
+    --font: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    -webkit-text-size-adjust: 100%;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  /* ── 화면 전환 ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ════════════════════════════
+     목차 화면
+  ════════════════════════════ */
+  #home {
+    min-height: 100vh;
+    padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+  }
+
+  .app-header {
+    padding: 1.75rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .app-title {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .subject-section { padding: 1rem 1.25rem 0; }
+
+  .subject-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .reading-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .reading-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+  }
+
+  .reading-card:active { background: #f0ede8; }
+
+  .reading-card.inactive {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .reading-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    min-width: 20px;
+  }
+
+  .reading-title {
+    flex: 1;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .reading-arrow {
+    color: var(--border);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .home-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 1.25rem;
+  }
+
+  /* ════════════════════════════
+     리딩 화면 공통
+  ════════════════════════════ */
+  .reading-screen {
+    min-height: 100vh;
+    padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+  }
+
+  .page-eyebrow {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    display: inline-block;
+  }
+
+  .page-eyebrow:active { opacity: 0.5; }
+
+  .reading-content {
+    line-height: 1.65;
+    padding: 1.25rem 1.5rem 5rem;
+  }
+
+  .page-header {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.85rem;
+  }
+
+  .page-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .page-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .q-body { padding: 1.1rem 1.2rem; }
+
+  .q-answer-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  .q-num { font-size: 15px; font-weight: 900; color: var(--text-primary); }
+  .q-meta { font-size: 11.5px; font-weight: 500; color: var(--text-muted); }
+
+  .q-english {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin-bottom: 0.55rem;
+  }
+
+  .q-korean {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.9rem;
+  }
+
+  .choices-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0.9rem;
+  }
+
+  .choice-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    border: 1px solid transparent;
+    color: var(--text-primary);
+  }
+
+  .choice-item.is-correct {
+    color: var(--correct);
+    background: var(--correct-bg);
+    border-color: var(--correct-border);
+    font-weight: 900;
+  }
+
+  .choice-letter {
+    font-size: 12.5px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.45;
+    min-width: 16px;
+  }
+
+  .choice-item.is-correct .choice-letter { opacity: 1; font-size: 13px; }
+  .choice-text-wrap { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .choice-en { color: inherit; }
+
+  .choice-kr {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .choice-item.is-correct .choice-kr { color: #1e6b44; font-weight: 700; }
+
+  .explanation-wrap {
+    background: #fafaf8;
+    border-radius: 7px;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--border);
+  }
+
+  .explanation-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.55rem;
+  }
+
+  .explanation-text {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.85;
+  }
+
+  .explanation-text strong { color: var(--text-primary); font-weight: 700; }
+
+  .calc-block {
+    background: #f0ede8;
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    margin: 0.65rem 0;
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.9;
+    border-left: 3px solid #c8c0b4;
+  }
+
+  .calc-block .step-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .result-line { font-weight: 700; color: var(--correct); font-size: 13.5px; }
+
+  .trap-note {
+    margin-top: 0.7rem;
+    padding: 0.6rem 0.9rem;
+    background: #fff8ec;
+    border-left: 3px solid #e0a030;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: #7a5010;
+    line-height: 1.75;
+  }
+
+  .trap-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a06820;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .weak-section {
+    margin: 2rem 0 0;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  .weak-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .weak-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .weak-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.85;
+  }
+
+  .weak-item strong { color: var(--text-primary); font-weight: 700; }
+
+  .weak-item .concept-head {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.55rem;
+  }
+
+  .weak-item .sub-list {
+    list-style: none;
+    margin-top: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .weak-item .sub-list li::before {
+    content: "→ ";
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+
+  .weak-item .formula-box {
+    display: inline-block;
+    background: #f0ede8;
+    border-radius: 5px;
+    padding: 0.2rem 0.6rem;
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0.25rem 0;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 0.6rem 0 0.9rem;
+  }
+
+  .data-table th {
+    background: #f0ede8;
+    font-weight: 700;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    text-align: center;
+  }
+
+  .data-table td {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .data-table tr.correct-row td {
+    color: var(--correct);
+    font-weight: 900;
+    background: var(--correct-bg);
+  }
+
+  .reading-footer {
+    margin: 1.75rem 0 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  @media (min-width: 768px) {
+    .reading-content { padding: 1.5rem 2rem 6rem; }
+    .q-body { padding: 1.25rem 1.4rem; }
+    .choice-item { padding: 0.45rem 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+     목차 화면
+════════════════════════════ -->
+<div id="home" class="screen active">
+
+  <div class="app-header">
+    <p class="app-eyebrow">CFA 2026 Level I</p>
+    <h1 class="app-title">Quiz Review</h1>
+  </div>
+
+  <div class="subject-section">
+    <p class="subject-label">Quantitative Methods</p>
+    <div class="reading-list">
+      <div class="reading-card" onclick="showScreen('r1')">
+        <span class="reading-num">R1</span>
+        <span class="reading-title">Rates and Returns</span>
+        <span class="reading-arrow">›</span>
+      </div>
+      <div class="reading-card inactive">
+        <span class="reading-num">R2</span>
+        <span class="reading-title">Time Value of Money</span>
+      </div>
+      <div class="reading-card inactive">
+        <span class="reading-num">R3</span>
+        <span class="reading-title">Statistical Measures</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-divider"></div>
+
+  <div class="subject-section">
+    <p class="subject-label">Fixed Income</p>
+    <div class="reading-list">
+      <div class="reading-card inactive">
+        <span class="reading-num">R4</span>
+        <span class="reading-title">Fixed-Income Securities</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════
+     Reading 1
+════════════════════════════ -->
+<div id="r1" class="screen reading-screen">
+
+  <div class="reading-content">
+    <div class="page-header">
+      <p class="page-eyebrow" onclick="showScreen('home')">CFA 2026 Level I &nbsp;/&nbsp; Quantitative Methods</p>
+      <h1 class="page-title">Reading 1 — Rates and Returns Quiz Review</h1>
+    </div>
+
+    <div class="questions-list">
+
+      <!-- Q1 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q1</span><span class="q-meta">기하평균수익률 계산 — 0% 수익률 처리 포함</span></div>
+          <p class="q-english">An analyst observes the following four annual returns: R₁ = +10%, R₂ = −15%, R₃ = 0%, and R₄ = +5%. The average compound annual rate over the four years is <em>closest</em> to:</p>
+          <p class="q-korean">애널리스트가 다음 네 가지 연간 수익률을 관찰했다: R₁ = +10%, R₂ = −15%, R₃ = 0%, R₄ = +5%. 4년간 평균 복리 연간 수익률은 얼마에 가장 가까운가?</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <div class="choice-text-wrap">
+                <span class="choice-en">−0.5%</span>
+                <span class="choice-kr">오답 — 실제값(−0.48%)과 비슷해 보이지만 B가 더 가까움</span>
+              </div>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">B.</span>
+              <div class="choice-text-wrap">
+                <span class="choice-en">0.0%</span>
+                <span class="choice-kr">정답 — 기하평균 약 −0.48%에 closest한 선지</span>
+              </div>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <div class="choice-text-wrap">
+                <span class="choice-en">−5.0%</span>
+                <span class="choice-kr">오답 — 크게 과대 추정된 값</span>
+              </div>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <p class="explanation-text">"average compound annual rate"라는 표현이 나오면 반드시 <strong>기하평균수익률(Geometric Mean Return)</strong>을 계산해야 합니다. 산술평균은 단순 합산이지만, 기하평균은 복리 효과를 반영한 실제 연평균 성과예요.</p>
+            <div class="calc-block">
+              <span class="step-label">STEP 1 — 각 연도를 (1 + R)로 변환</span>
+              (1+0.10) = 1.10 &nbsp;·&nbsp; (1−0.15) = 0.85 &nbsp;·&nbsp; (1+<strong>0.00</strong>) = <strong>1.00</strong> &nbsp;·&nbsp; (1+0.05) = 1.05
+            </div>
+            <div class="calc-block">
+              <span class="step-label">STEP 2 — 네 값의 곱 계산</span>
+              1.10 × 0.85 × 1.00 × 1.05 = <strong>0.98175</strong>
+            </div>
+            <div class="calc-block">
+              <span class="step-label">STEP 3 — n제곱근 후 1 차감 (n=4)</span>
+              0.98175^(1/4) − 1 = 0.9952 − 1 ≈ <span class="result-line">−0.48%</span><br>
+              → 절댓값 기준 A(−0.5%, 차이 0.02%p)가 더 가깝지만 교재 정답은 B입니다.*
+            </div>
+            <p class="explanation-text" style="margin-top:0.5rem;">*어떤 선지가 정답이든, <strong>"compound rate = 기하평균"</strong>이라는 개념과 계산 절차를 익히는 것이 목표입니다.</p>
+            <div class="trap-note">
+              <span class="trap-label">시험 함정</span>
+              <strong>R₃ = 0%일 때 반드시 (1+0) = 1.00으로 처리</strong>하세요. 0을 그대로 곱하면 전체 곱이 0이 됩니다. 산술평균 (10−15+0+5)/4 = 0%는 B 선지와 우연히 일치하지만, "compound" 문제에서 산술평균을 쓰는 건 개념 오류입니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q2</span><span class="q-meta">기하평균 계산 + 산술평균과의 대소 비교</span></div>
+          <p class="q-english">Trina Romel, mutual fund manager, is taking over a poor-performing fund from a colleague. Over the last five years, the fund's annual percentage returns were: 25, 15, 12, −8, and −14. Determine if the geometric return of the fund will be less than or greater than the arithmetic return, and calculate the fund's geometric return.</p>
+          <p class="q-korean">뮤추얼 펀드 매니저 Trina Romel이 동료로부터 저성과 펀드를 인계받는다. 지난 5년간 연간 수익률은 25%, 15%, 12%, −8%, −14%였다. 기하평균수익률이 산술평균보다 큰지 작은지 판단하고, 기하평균수익률을 계산하라.</p>
+          <table class="data-table">
+            <thead><tr><th></th><th>Geometric Return</th><th>Geometric compared to Arithmetic</th></tr></thead>
+            <tbody>
+              <tr><td>A.</td><td>12.86%</td><td>greater than</td></tr>
+              <tr><td>B.</td><td>4.96%</td><td>greater than</td></tr>
+              <tr class="correct-row"><td>C.</td><td>4.96%</td><td>less than</td></tr>
+            </tbody>
+          </table>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <p class="explanation-text">음수 수익률(−8%, −14%)이 포함 → <strong>변동성 존재 → 기하 &lt; 산술 확정</strong> → B 탈락.</p>
+            <div class="calc-block">
+              <span class="step-label">산술평균</span>
+              (25 + 15 + 12 − 8 − 14) / 5 = 30 / 5 = <strong>6.0%</strong>
+            </div>
+            <div class="calc-block">
+              <span class="step-label">기하평균 — (1+R) 변환 후 순차 곱셈</span>
+              1.25 × 1.15 × 1.12 × 0.92 × 0.86 = <strong>1.2738</strong><br>
+              1.2738^(0.2) − 1 = <span class="result-line">4.96%</span> → 기하(4.96%) &lt; 산술(6.0%) ✓ → 정답 C
+            </div>
+            <div class="trap-note">
+              <span class="trap-label">시험 함정</span>
+              B는 계산값은 맞지만 방향(greater than)이 틀린 오답입니다. <strong>계산 전에 방향부터 확정</strong>하면 A·B 동시 제거 가능.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q3</span><span class="q-meta">10개 수익률의 기하평균 — 계산기 활용</span></div>
+          <p class="q-english">An analyst collects the following set of 10 returns from the past. The geometric mean return is <em>closest</em> to:</p>
+          <p class="q-korean">애널리스트가 과거 10개의 수익률을 수집했다. 기하평균수익률은 얼마에 가장 가까운가?</p>
+          <table class="data-table">
+            <thead><tr><th>Year</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
+            <tbody><tr><td>Return (%)</td><td>2.2</td><td>6.2</td><td>8.9</td><td>9.3</td><td>10.5</td><td>11.7</td><td>12.3</td><td>14.1</td><td>15.3</td><td>18.4</td></tr></tbody>
+          </table>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <div class="choice-text-wrap"><span class="choice-en">10.89%</span><span class="choice-kr">오답 — 산술평균값</span></div>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">B.</span>
+              <div class="choice-text-wrap"><span class="choice-en">9.62%</span><span class="choice-kr">오답 — 계산 오류 유도값</span></div>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">C.</span>
+              <div class="choice-text-wrap"><span class="choice-en">10.80%</span><span class="choice-kr">정답 — 올바른 기하평균수익률</span></div>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <div class="calc-block">
+              <span class="step-label">전체 곱 → 10제곱근</span>
+              1.022 × 1.062 × … × 1.184 = <strong>약 2.7931</strong><br>
+              2.7931 [y^x] <strong>0.1</strong> [=] → 1.1080 − 1 = <span class="result-line">10.80%</span>
+            </div>
+            <p class="explanation-text">산술평균 = 108.9/10 = <strong>10.89%</strong> → A가 산술평균임을 눈치채면 즉시 탈락.</p>
+            <div class="trap-note">
+              <span class="trap-label">계산기 팁</span>
+              n제곱근 지수: 4제곱근=<strong>0.25</strong>, 5제곱근=<strong>0.2</strong>, 10제곱근=<strong>0.1</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q4</span><span class="q-meta">기하평균 vs 산술평균 — 수학적 원칙</span></div>
+          <p class="q-english">When calculated for the same data and provided there is variability in the observations, the geometric mean will <em>most likely</em> be:</p>
+          <p class="q-korean">동일한 데이터에 대해 계산하고 관찰값에 변동성이 있는 경우, 기하평균은 어떻게 될 가능성이 가장 높은가?</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <div class="choice-text-wrap"><span class="choice-en">equal to the arithmetic mean.</span><span class="choice-kr">변동성이 없을 때만 성립 (조건 위반)</span></div>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">B.</span>
+              <div class="choice-text-wrap"><span class="choice-en">less than the arithmetic mean.</span><span class="choice-kr">정답 — 변동성이 있으면 항상 기하 &lt; 산술</span></div>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <div class="choice-text-wrap"><span class="choice-en">greater than the arithmetic mean.</span><span class="choice-kr">수학적으로 절대 불가능</span></div>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <div class="calc-block">
+              <span class="step-label">AM-GM 부등식</span>
+              <strong>HM ≤ GM ≤ AM</strong> — 등호는 모든 값이 동일할 때만
+            </div>
+            <p class="explanation-text"><strong>직관:</strong> +50% 후 −50% → 산술평균 0%, 실제 $100→$75. 기하평균 = √(1.5×0.5)−1 = <strong>−13.4%</strong>로 실제 손실 반영.</p>
+            <p class="explanation-text" style="margin-top:0.4rem;"><strong>근사 공식:</strong> GM ≈ AM − σ²/2</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q5</span><span class="q-meta">수익률 측정값 대소 비교 — 음수 포함 데이터</span></div>
+          <p class="q-english">An analyst collects the following set of past stock returns: −2.3%, −5.1%, 7.6%, 8.2%, 9.1%, and 9.8%. Which of the following measures of return is <em>most likely</em> the highest?</p>
+          <p class="q-korean">−2.3%, −5.1%, 7.6%, 8.2%, 9.1%, 9.8%. 다음 중 가장 높을 가능성이 있는 수익률 측정값은?</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <div class="choice-text-wrap"><span class="choice-en">Median return.</span><span class="choice-kr">분포에 따라 대소 변동</span></div>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">B.</span>
+              <div class="choice-text-wrap"><span class="choice-en">Geometric mean return.</span><span class="choice-kr">항상 산술평균 이하 → 최고값 불가</span></div>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">C.</span>
+              <div class="choice-text-wrap"><span class="choice-en">Arithmetic mean return.</span><span class="choice-kr">정답 — 기하평균보다 항상 크거나 같음이 보장</span></div>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <p class="explanation-text"><strong>제거법:</strong> 기하평균(B)은 수학적으로 산술평균 이하 → 즉시 탈락. A(중앙값)와 C(산술평균)의 대소는 분포에 따라 바뀌므로, "most likely highest"는 기하평균보다 높음이 보장되는 C.</p>
+            <div class="trap-note">
+              <span class="trap-label">실제 계산값</span>
+              중앙값(7.9%) &gt; 산술평균(4.55%) &gt; 기하평균(3.9%) — 실제로는 중앙값이 높지만 시험 논리상 C가 정답.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q6</span><span class="q-meta">두 종목 간 산술평균·기하평균 비교 — 변동성 영향</span></div>
+          <p class="q-english">For the three-year period, did Yau or Reston achieve the lower arithmetic mean return? geometric mean return?</p>
+          <p class="q-korean">3년간 산술평균수익률이 더 낮은 회사는? 기하평균수익률이 더 낮은 회사는?</p>
+          <table class="data-table">
+            <thead><tr><th>Year</th><th>Reston</th><th>Yau</th></tr></thead>
+            <tbody>
+              <tr><td>2000</td><td>15.3%</td><td>11.3%</td></tr>
+              <tr><td>2001</td><td>−8.2%</td><td>9.6%</td></tr>
+              <tr><td>2002</td><td>22.8%</td><td>8.6%</td></tr>
+            </tbody>
+          </table>
+          <table class="data-table" style="margin-top:0.5rem;">
+            <thead><tr><th></th><th>산술평균 낮은 곳</th><th>기하평균 낮은 곳</th></tr></thead>
+            <tbody>
+              <tr><td>A.</td><td>Yau</td><td>Yau</td></tr>
+              <tr><td>B.</td><td>Yau</td><td>Reston</td></tr>
+              <tr class="correct-row"><td>C.</td><td>Reston</td><td>Reston</td></tr>
+            </tbody>
+          </table>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <div class="calc-block">
+              <span class="step-label">산술평균</span>
+              Reston = 29.9/3 = <strong>9.97%</strong> &nbsp;/&nbsp; Yau = 29.5/3 = <strong>9.83%</strong><br>
+              → 산술평균 낮은 쪽: <strong>Yau</strong>
+            </div>
+            <div class="calc-block">
+              <span class="step-label">기하평균</span>
+              Reston = (1.153×0.918×1.228)^(1/3)−1 ≈ <strong>9.14%</strong><br>
+              Yau = (1.113×1.096×1.086)^(1/3)−1 ≈ <strong>9.84%</strong><br>
+              → 기하평균 낮은 쪽: <strong>Reston</strong>
+            </div>
+            <p class="explanation-text">Reston의 산술-기하 격차: <strong>0.83%p</strong> vs Yau: <strong>≈0%p</strong>. Reston의 큰 변동성(−8.2%~+22.8%)이 기하평균을 끌어내린 것.</p>
+            <div class="trap-note">
+              <span class="trap-label">시험 함정</span>
+              산술평균은 Yau가 낮고, 기하평균은 Reston이 낮아요 — 두 결과가 다릅니다. −10% 손실은 +11.1%가 있어야 회복, −20%는 +25% 필요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /questions-list -->
+
+    <!-- 취약 개념 -->
+    <div class="weak-section">
+      <p class="weak-title">취약 개념 정리</p>
+      <div class="weak-list">
+
+        <div class="weak-item">
+          <span class="concept-head">① 기하평균수익률 — 공식·계산·계산기</span>
+          <span class="formula-box">RG = [(1+R₁)(1+R₂)···(1+Rₙ)]^(1/n) − 1</span>
+          <ul class="sub-list">
+            <li>R=0% → 1.00 처리 (0 그대로 곱하면 전체가 0)</li>
+            <li>R=−15% → 0.85 처리</li>
+            <li>TI BA II Plus: 곱 → [y^x] → 1/n 입력</li>
+            <li>결과가 산술평균보다 크면 계산 오류</li>
+          </ul>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">② HM ≤ GM ≤ AM</span>
+          변동성 있는 데이터에서 항상 성립. 등호는 모든 값이 동일할 때만.<br>
+          <span class="formula-box">GM ≈ AM − σ²/2</span>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">③ 손실의 비대칭성</span>
+          <ul class="sub-list">
+            <li>−10% → 회복에 +11.1% 필요</li>
+            <li>−20% → +25.0% 필요</li>
+            <li>−50% → +100.0% 필요</li>
+          </ul>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">④ 각 평균의 사용 시기</span>
+          <ul class="sub-list">
+            <li><strong>AM</strong>: 단일 기간 미래 기대수익률, 불편추정량</li>
+            <li><strong>GM</strong>: 다기간 복리 수익률, CAGR</li>
+            <li><strong>HM</strong>: Dollar-Cost Averaging 평균 매입단가. HM = N/Σ(1/Xᵢ)</li>
+            <li><strong>절사평균</strong>: 극단값 제거 후 AM</li>
+            <li><strong>윈저화평균</strong>: 극단값을 경계값으로 교체 후 AM</li>
+          </ul>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">⑤ TWR vs MWR</span>
+          <strong>TWR:</strong> 현금흐름 영향 제거 → 펀드매니저 성과 평가 (GIPS 표준)<br>
+          <strong>MWR(=IRR):</strong> 현금흐름 타이밍 반영 → 투자자 실질 수익
+          <ul class="sub-list">
+            <li>고점 직전 대규모 투입 → MWR &lt; TWR</li>
+            <li>저점 직전 대규모 투입 → MWR &gt; TWR</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="reading-footer">CFA 2026 Level I &nbsp;/&nbsp; Reading 1 &nbsp;/&nbsp; Rates and Returns</div>
+
+  </div><!-- /reading-content -->
+</div><!-- /r1 -->
+
+<!-- ════════════════════════════
+     새 Reading 추가 시 여기 아래에 붙여넣기
+     예시:
+     <div id="r2" class="screen reading-screen">
+       <div class="reading-content">
+         ... 내용 ...
+       </div>
+     </div>
+════════════════════════════ -->
+
+<script>
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
