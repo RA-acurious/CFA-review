@@ -432,6 +432,152 @@
     letter-spacing: 0.06em;
   }
 
+
+  /* ── R47 전용: 섹션 레이블 ── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0.5rem 0.85rem;
+    background: #f0ede8;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .notes-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+
+  .note-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.15rem 1.2rem;
+  }
+
+  .note-head {
+    font-size: 14.5px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+  }
+
+  .note-los {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #5b3a1f;
+    background: #f3ede4;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: 2px;
+  }
+
+  .note-body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.85; }
+  .note-body strong { color: var(--text-primary); font-weight: 700; }
+
+  .note-sub {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 0.85rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .note-tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.7rem; }
+
+  .note-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: #f0ede8;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+
+  .note-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.6rem 0;
+    font-size: 12.5px;
+  }
+
+  .note-table th, .note-table td {
+    border: 1px solid var(--border);
+    padding: 6px 9px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .note-table th {
+    background: #e8e3dc;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 12px;
+  }
+
+  .note-table td.cell-strong { font-weight: 700; color: var(--text-primary); }
+
+  .key-callout {
+    background: #f3ede4;
+    border-left: 3px solid #5b3a1f;
+    padding: 0.65rem 0.9rem;
+    margin: 0.7rem 0;
+    border-radius: 5px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-primary);
+  }
+
+  .key-callout .callout-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5b3a1f;
+    margin-bottom: 4px;
+  }
+
+  .formula-box {
+    display: inline-block;
+    background: #f0ede8;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 13px;
+  }
+
+  .sub-list {
+    list-style: none;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .sub-list li {
+    padding: 2px 0 2px 14px;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .sub-list li::before {
+    content: "·";
+    position: absolute;
+    left: 4px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
   @media (min-width: 768px) {
     .reading-content { padding: 1.5rem 2rem 6rem; }
     .q-body { padding: 1.25rem 1.4rem; }
@@ -475,9 +621,10 @@
   <div class="subject-section">
     <p class="subject-label">Fixed Income</p>
     <div class="reading-list">
-      <div class="reading-card inactive">
-        <span class="reading-num">R4</span>
-        <span class="reading-title">Fixed-Income Securities</span>
+      <div class="reading-card" onclick="showScreen('r47')">
+        <span class="reading-num">R47</span>
+        <span class="reading-title">Fixed-Income Instrument Features</span>
+        <span class="reading-arrow">›</span>
       </div>
     </div>
   </div>
@@ -803,6 +950,444 @@
        </div>
      </div>
 ════════════════════════════ -->
+
+<!-- ════════════════════════════
+     Reading 47
+════════════════════════════ -->
+<div id="r47" class="screen reading-screen">
+  <div class="reading-content">
+    <div class="page-header">
+      <p class="page-eyebrow" onclick="showScreen('home')">CFA 2026 Level I &nbsp;/&nbsp; Fixed Income</p>
+      <h1 class="page-title">Reading 47 — Fixed-Income Instrument Features</h1>
+    </div>
+
+    <!-- Part 1 -->
+    <p class="section-label">Part 1 &nbsp;·&nbsp; 본문 정리 노트</p>
+    <div class="notes-list">
+
+      <div class="note-card">
+        <p class="note-head"><span class="note-los">LOS 47.a</span>대출(Loan)과 채권(Bond)의 구분</p>
+        <p class="note-body">고정수익 상품은 <strong>대출(Loans)</strong>과 <strong>채권(Bonds)</strong>으로 나뉘어요. 둘의 핵심 차이는 <strong>표준화(standardization)와 거래 가능성(tradability)</strong>이에요. 대출은 사적 계약이라 거래 불가, 채권은 표준화되어 시장에서 자유롭게 거래돼요.</p>
+      </div>
+
+      <div class="note-card">
+        <p class="note-head"><span class="note-los">LOS 47.a</span>채권의 7가지 핵심 특징</p>
+
+        <p class="note-sub">① Issuer — 5종류</p>
+        <p class="note-body"><strong>Sovereign</strong>(주권국가), <strong>Corporation</strong>(기업), <strong>Local Government</strong>(지방정부), <strong>Supranational</strong>(국제기구, 예: IMF), <strong>Quasi-Government</strong>(준정부, 예: 국영철도), <strong>SPE</strong>(특수목적법인 — ABS 발행)</p>
+
+        <p class="note-sub">② Maturity</p>
+        <table class="note-table">
+          <thead><tr><th>구분</th><th>Original Maturity</th><th>예시</th></tr></thead>
+          <tbody>
+            <tr><td class="cell-strong">Money Market</td><td>1년 이하</td><td>T-Bill, CP, CD</td></tr>
+            <tr><td class="cell-strong">Capital Market</td><td>1년 초과</td><td>국고채, 회사채</td></tr>
+            <tr><td class="cell-strong">Perpetual Bond</td><td>만기 없음</td><td>Consols</td></tr>
+          </tbody>
+        </table>
+        <p class="note-body"><strong>Maturity Date</strong>는 만기일 자체, <strong>Tenor</strong>는 지금부터 만기까지 남은 시간. 분류 기준은 Original Maturity이며 시간이 지나도 분류는 바뀌지 않아요.</p>
+
+        <p class="note-sub">③ Par Value</p>
+        <p class="note-body"><strong>Principal = Par = Face Value</strong>는 모두 동의어. 만기에 돌려받는 원금. Bullet 구조(만기 일시 상환) vs Amortizing 구조(분할 상환).</p>
+
+        <p class="note-sub">④ Coupon Rate &amp; Frequency</p>
+        <p class="note-body">쿠폰율은 항상 <strong>연율, 액면가 기준</strong>. 시장 가격이 변해도 쿠폰 금액은 고정.</p>
+        <div class="key-callout">
+          <span class="callout-label">변동금리채 (FRN)</span>
+          <strong>쿠폰율 = MRR + 고정 마진(bps)</strong>. MRR(SOFR 등)이 변하면 쿠폰도 바뀌어요. 금리 위험이 매우 작음. <strong>1bp = 0.01%</strong>.
+        </div>
+
+        <p class="note-sub">⑤ Zero-Coupon Bond</p>
+        <p class="note-body">쿠폰 0, <strong>할인 발행(pure discount)</strong>. 모든 현금흐름이 만기 한 점에 몰려 <strong>이자율 위험이 가장 큰</strong> 채권 형태. 듀레이션 개념의 출발점.</p>
+
+        <p class="note-sub">⑥ Seniority (변제순위)</p>
+        <table class="note-table">
+          <thead><tr><th>순위</th><th>종류</th><th>특징</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Secured Senior Debt</td><td>특정 자산 담보</td></tr>
+            <tr><td>2</td><td>Unsecured Senior Debt</td><td>일반 자산 우선권</td></tr>
+            <tr><td>3</td><td>Subordinated Debt</td><td>위 두 가지 후순위</td></tr>
+            <tr><td>4</td><td>Preferred Equity</td><td>주식 중 우선</td></tr>
+            <tr><td>5</td><td>Common Equity</td><td>마지막</td></tr>
+          </tbody>
+        </table>
+        <p class="note-body">후순위일수록 위험 ↑ → <strong>더 높은 쿠폰</strong> 필요.</p>
+
+        <p class="note-sub">⑦ Contingency Provisions</p>
+        <p class="note-body"><strong>Callable</strong>: 발행자에게 유리 → 쿠폰 ↑ &nbsp;|&nbsp; <strong>Putable / Convertible</strong>: 투자자에게 유리 → 쿠폰 ↓. 누구에게 유리한지가 쿠폰 방향을 결정해요.</p>
+      </div>
+
+      <div class="note-card">
+        <p class="note-head"><span class="note-los">LOS 47.a</span>가격-수익률 역관계</p>
+        <div class="key-callout">
+          <span class="callout-label">Fixed Income의 핵심 명제</span>
+          <strong>시장 금리 ↑ → 채권 가격 ↓ &nbsp;|&nbsp; 시장 금리 ↓ → 채권 가격 ↑</strong>
+        </div>
+        <p class="note-body">고정 쿠폰채는 미래 현금흐름이 이미 고정. 수익률을 바꿀 수 있는 유일한 변수가 <strong>오늘 지불하는 가격</strong>이에요. 시장 금리가 오르면 옛날 낮은 쿠폰 채권은 가격이 떨어져야 새 채권과 경쟁 가능해요. 듀레이션·컨벡시티·채권평가 전체의 출발점.</p>
+      </div>
+
+      <div class="note-card">
+        <p class="note-head"><span class="note-los">LOS 47.a</span>수익률 곡선(Yield Curve)과 스프레드</p>
+        <table class="note-table">
+          <thead><tr><th>곡선 모양</th><th>이름</th><th>의미</th></tr></thead>
+          <tbody>
+            <tr><td>우상향</td><td class="cell-strong">Normal</td><td>일반적, 만기 길수록 수익률 ↑</td></tr>
+            <tr><td>평탄</td><td class="cell-strong">Flat</td><td>전환기, 불확실</td></tr>
+            <tr><td>우하향</td><td class="cell-strong">Inverted</td><td>침체 우려 신호</td></tr>
+          </tbody>
+        </table>
+        <div class="key-callout">
+          <span class="callout-label">스프레드 공식</span>
+          <strong>Spread = Y(corporate) − Y(government)</strong><br>
+          예: 5년 회사채 6% − 5년 국채 5% = <strong>100bps</strong>. 신용위험에 대한 추가 보상.
+        </div>
+      </div>
+
+      <div class="note-card">
+        <p class="note-head"><span class="note-los">LOS 47.b</span>채권 계약서(Bond Indenture)</p>
+        <p class="note-body">발행자와 채권자 사이의 <strong>법적 계약 문서</strong>. Indenture에 들어가는 5가지: ① 기본 조건 ② 상환 재원 ③ 담보 ④ 신용 보강 ⑤ 약정(Covenants).</p>
+        <p class="note-sub">상환 재원(Sources of Repayment)</p>
+        <table class="note-table">
+          <thead><tr><th>발행자</th><th>상환 재원</th></tr></thead>
+          <tbody>
+            <tr><td>Sovereign</td><td>세금, 화폐 발행권</td></tr>
+            <tr><td>Local Government</td><td>지방세, 인프라 수익</td></tr>
+            <tr><td>Corporate Secured</td><td>영업현금흐름 + 담보 자산</td></tr>
+            <tr><td>Corporate Unsecured</td><td>영업현금흐름만</td></tr>
+            <tr><td>ABS</td><td>SPE 보유 금융자산 현금흐름</td></tr>
+          </tbody>
+        </table>
+        <p class="note-body"><strong>Secured vs Unsecured 차이는 부도 시에만</strong>. Secured는 담보 자산에 법적 청구권(lien/pledge)이 있어 우선 가져갈 수 있어요.</p>
+      </div>
+
+      <div class="note-card">
+        <p class="note-head"><span class="note-los">LOS 47.b</span>약정(Covenants) — Affirmative vs Negative</p>
+        <p class="note-body">채권자는 의결권이 없어 발행자의 위험 행동을 막을 안전장치가 필요해요.</p>
+
+        <p class="note-sub">Affirmative Covenants (해야 할 것)</p>
+        <div class="note-tag-row">
+          <span class="note-tag">재무보고서 제출</span>
+          <span class="note-tag">자금 사용처 명시</span>
+          <span class="note-tag">세금 납부</span>
+          <span class="note-tag">보험 가입</span>
+          <span class="note-tag">자산 유지</span>
+        </div>
+        <p class="note-body"><strong>Cross-Default</strong>: 다른 부채 부도 시 이 채권도 부도로 간주.<br><strong>Pari Passu</strong>: 다른 senior 채권과 동등한 변제순위 보장 (라틴어로 "동등한 발걸음").</p>
+
+        <p class="note-sub">Negative Covenants (하지 말아야 할 것)</p>
+        <div class="note-tag-row">
+          <span class="note-tag">자산 매각/리스백 제한</span>
+          <span class="note-tag">담보 중복 사용 금지</span>
+          <span class="note-tag">Negative Pledge</span>
+          <span class="note-tag">차입/배당/자사주매입 제한</span>
+        </div>
+        <p class="note-body"><strong>Negative Pledge Clause</strong>: 새 부채가 이 채권보다 더 선순위가 되는 것을 금지.<br><strong>Incurrence Test</strong>: 재무비율(예: Debt/EBITDA &lt; 3) 충족 시에만 허용하는 조건부 제한.</p>
+        <div class="key-callout">
+          <span class="callout-label">균형 원칙</span>
+          Covenants가 지나치게 제한적이면 회사 성장을 막아 결국 채권자도 손해예요.
+        </div>
+      </div>
+
+    </div><!-- /notes-list -->
+
+    <!-- Part 2 -->
+    <p class="section-label">Part 2 &nbsp;·&nbsp; 퀴즈 리뷰</p>
+    <div class="questions-list">
+
+      <!-- Q1 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q1</span><span class="q-meta">LOS 47.b · Negative Covenant 식별</span></div>
+          <p class="q-english">Which of the following is <em>least likely</em> to be a negative covenant associated with a coupon-paying corporate bond issue?</p>
+          <p class="q-korean">다음 중 쿠폰 지급 회사채의 소극적 약정(negative covenant)에 해당할 가능성이 <em>가장 낮은</em> 것은?</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <span>A requirement to hedge at least 50% of the firm's revenues generated from foreign sales.</span>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">B.</span>
+              <span>A requirement to pay withholding taxes to foreign governments in a timely manner.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <span>A prohibition from investing in long-term projects in emerging market countries.</span>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <p class="explanation-text">영문 키워드로 즉시 분류하세요.</p>
+            <div class="calc-block">
+              <span class="step-label">키워드 분석</span>
+              A — "<strong>requirement to</strong> hedge" → affirmative<br>
+              B — "<strong>requirement to</strong> pay" → affirmative<br>
+              C — "<strong>prohibition from</strong> investing" → negative ✓
+            </div>
+            <p class="explanation-text" style="margin-top:0.5rem;">질문은 "negative covenant가 <strong>아닐</strong> 가능성이 가장 높은 것"이므로 C(명백한 negative)는 탈락. A와 B 모두 affirmative인데, A(헤지 요구)는 외환 변동이 상환 능력에 직접 영향을 주어 covenant로 흔히 등장하는 반면, B(세금 납부)는 일반적인 법적 의무에 가까워 indenture에 굳이 명시하지 않는 경우가 많아요. 따라서 정답은 <strong>B</strong>.</p>
+            <div class="trap-note">
+              <span class="trap-label">키워드 매칭</span>
+              <strong>requirement to / must → affirmative</strong> &nbsp;|&nbsp; <strong>prohibition from / restriction on / cannot → negative</strong>. 이 두 패턴만 잡으면 분류 문제는 즉시 풀려요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q2</span><span class="q-meta">LOS 47.a · 가격-수익률 역관계</span></div>
+          <p class="q-english">If the market interest rate increases after a fixed-coupon bond is issued, the bond's price will <em>most likely</em>:</p>
+          <p class="q-korean">고정 쿠폰 채권 발행 후 시장 이자율이 상승하면, 그 채권의 가격은 <em>가장 가능성 높게</em>:</p>
+          <ul class="choices-list">
+            <li class="choice-item is-correct">
+              <span class="choice-letter">A.</span>
+              <span>decrease, as yields and prices are inversely related.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">B.</span>
+              <span>increase, as the bond's coupon rate becomes more attractive.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <span>remain unchanged, as the cash flows are fixed.</span>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <div class="calc-block">
+              <span class="step-label">메커니즘</span>
+              ① 고정 쿠폰채의 미래 현금흐름은 이미 고정<br>
+              ② 시장 금리 ↑ → 새 채권이 더 높은 쿠폰 제공<br>
+              ③ 기존 낮은 쿠폰 채권 매력 ↓ → 가격이 떨어져야 경쟁 가능<br>
+              → <strong>금리 ↑ ⇒ 가격 ↓</strong>
+            </div>
+            <div class="trap-note">
+              <span class="trap-label">시험 함정</span>
+              C가 매력적으로 보이는 이유: "현금흐름이 고정이니 가격도 고정?" → 정반대. <strong>현금흐름이 고정이라서 가격이 변해야</strong> 시장 균형이 맞춰져요. 고정된 건 현금흐름이지 시장가치가 아니에요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q3</span><span class="q-meta">LOS 47.a · 변제순위와 쿠폰율</span></div>
+          <p class="q-english">All else equal, a corporate bond classified as subordinated unsecured debt would <em>most likely</em> have:</p>
+          <p class="q-korean">다른 조건이 모두 동일하다면, 후순위 무담보 채권(subordinated unsecured)으로 분류된 회사채는 <em>가장 가능성 높게</em>:</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <span>a lower coupon than the issuer's senior secured debt.</span>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">B.</span>
+              <span>a higher coupon than the issuer's senior secured debt.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <span>the same coupon as the issuer's senior secured debt.</span>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <div class="calc-block">
+              <span class="step-label">위험 누적: 후순위 + 무담보</span>
+              <strong>Subordinated</strong>: senior 다음에 받음 → 회수율 ↓<br>
+              <strong>Unsecured</strong>: 담보 없음 → 부도 시 특정 자산 청구권 없음<br>
+              → 부도 시 <strong>회수율(recovery rate) 최저</strong> → 더 큰 위험 보상 필요 → 쿠폰 ↑
+            </div>
+            <div class="trap-note">
+              <span class="trap-label">시험 함정</span>
+              "같은 발행자니 신용도가 같아서 쿠폰도 같다?" → <strong>발행자 신용도 ≠ 특정 채권 위험</strong>. 같은 회사 안에서도 어느 순위(senior/junior, secured/unsecured)에 앉느냐에 따라 위험이 달라요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q4</span><span class="q-meta">LOS 47.a · Yield Curve 해석</span></div>
+          <p class="q-english">An inverted yield curve is <em>best</em> described as:</p>
+          <p class="q-korean">역전 수익률 곡선(inverted yield curve)을 <em>가장 잘</em> 설명한 것은?</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <span>a yield curve where longer-dated maturities offer higher yields than shorter-dated maturities.</span>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">B.</span>
+              <span>a downward-sloping yield curve where shorter-dated maturities offer higher yields than longer-dated maturities.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <span>a flat yield curve where all maturities offer the same yield.</span>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <table class="note-table">
+              <thead><tr><th>곡선</th><th>모양</th><th>의미</th></tr></thead>
+              <tbody>
+                <tr><td>Normal</td><td>우상향</td><td>장기 &gt; 단기, 가장 흔함</td></tr>
+                <tr><td>Flat</td><td>평탄</td><td>장기 ≈ 단기, 전환기</td></tr>
+                <tr><td class="cell-strong">Inverted</td><td class="cell-strong">우하향</td><td class="cell-strong">단기 &gt; 장기, 침체 우려</td></tr>
+              </tbody>
+            </table>
+            <p class="explanation-text" style="margin-top:0.5rem;"><strong>역전 형성 메커니즘:</strong> 침체 예상 → 중앙은행 금리 인하 기대 → 투자자들이 장기 채권 미리 매수 → 장기 채권 가격 ↑ → 장기 수익률 ↓ → 단기 &gt; 장기.</p>
+            <div class="trap-note">
+              <span class="trap-label">시험 포인트</span>
+              역전 곡선은 역사적으로 <strong>경기 침체의 선행 지표</strong>로 작동해 왔어요. 거시경제·채권평가 양쪽에서 모두 출제돼요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q5</span><span class="q-meta">LOS 47.a · 발행자 분류와 ABS</span></div>
+          <p class="q-english">A bond issued by a special purpose entity (SPE) and backed by the cash flows from a pool of underlying financial assets is <em>best</em> described as:</p>
+          <p class="q-korean">특수목적법인(SPE)이 발행하고 기초 금융자산 풀의 현금흐름으로 뒷받침되는 채권은 <em>가장 잘</em>:</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <span>a sovereign bond.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">B.</span>
+              <span>a supranational bond.</span>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">C.</span>
+              <span>an asset-backed security.</span>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <div class="calc-block">
+              <span class="step-label">ABS 구조 흐름</span>
+              ① Originator가 대출 풀 보유<br>
+              ② 별도의 <strong>SPE</strong> 설립 → 대출 풀 매각 (originator 대차대조표에서 분리)<br>
+              ③ SPE가 그 풀을 담보로 <strong>ABS 발행</strong> → 투자자에게 매각<br>
+              ④ 풀의 현금흐름이 ABS 투자자에게 전달
+            </div>
+            <p class="explanation-text"><strong>SPE를 별도로 설립하는 이유:</strong> Originator가 부도 나도 ABS 자산은 분리 보호 → <strong>bankruptcy remote</strong> 구조.</p>
+            <div class="trap-note">
+              <span class="trap-label">시험 함정</span>
+              <strong>"backed by cash flows from financial assets"</strong>가 보이면 ABS. 발행자 5종류: Sovereign / Local Government / Supranational / Quasi-Government / <strong>SPE(→ABS)</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="q-card">
+        <div class="q-body">
+          <div class="q-answer-line"><span class="q-num">Q6</span><span class="q-meta">LOS 47.b · Pari Passu / Cross-Default / Negative Pledge 구분</span></div>
+          <p class="q-english">A clause in a bond indenture stating that the bond will rank equally with the issuer's other senior unsecured debt issues is <em>best</em> described as a:</p>
+          <p class="q-korean">채권이 발행자의 다른 무담보 선순위 채권들과 동등한 변제순위를 갖는다고 명시한 조항은 <em>가장 잘</em>:</p>
+          <ul class="choices-list">
+            <li class="choice-item">
+              <span class="choice-letter">A.</span>
+              <span>cross-default clause.</span>
+            </li>
+            <li class="choice-item is-correct">
+              <span class="choice-letter">B.</span>
+              <span>pari passu clause.</span>
+            </li>
+            <li class="choice-item">
+              <span class="choice-letter">C.</span>
+              <span>negative pledge clause.</span>
+            </li>
+          </ul>
+          <div class="explanation-wrap">
+            <p class="explanation-title">해설</p>
+            <table class="note-table">
+              <thead><tr><th>조항</th><th>분류</th><th>막는 위험</th></tr></thead>
+              <tbody>
+                <tr><td>Cross-Default</td><td>Affirmative</td><td>다른 부채 부도 시 본 채권자가 손 놓는 위험</td></tr>
+                <tr><td class="cell-strong">Pari Passu</td><td class="cell-strong">Affirmative</td><td class="cell-strong">기존 senior 채권자가 다른 채권에 밀리는 위험</td></tr>
+                <tr><td>Negative Pledge</td><td>Negative</td><td>새 부채가 본 채권보다 선순위가 되는 위험</td></tr>
+              </tbody>
+            </table>
+            <p class="explanation-text" style="margin-top:0.5rem;"><strong>Pari Passu vs Negative Pledge:</strong> Pari Passu는 "기존" 채권들과의 <strong>동등 보장</strong>, Negative Pledge는 "미래" 신규 부채의 <strong>선순위 차단</strong>.</p>
+            <div class="trap-note">
+              <span class="trap-label">키워드 매칭</span>
+              <strong>rank equally → Pari Passu</strong> &nbsp;|&nbsp; <strong>default on any other → Cross-Default</strong> &nbsp;|&nbsp; <strong>rank more senior → Negative Pledge</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /questions-list -->
+
+    <!-- 취약 개념 -->
+    <div class="weak-section">
+      <p class="weak-title">취약 개념 정리</p>
+      <div class="weak-list">
+
+        <div class="weak-item">
+          <span class="concept-head">① 가격-수익률 역관계 — Fixed Income의 출발점</span>
+          <span class="formula-box">금리 ↑ ⇒ 가격 ↓ &nbsp;|&nbsp; 금리 ↓ ⇒ 가격 ↑</span><br><br>
+          현금흐름이 고정이라서 <strong>가격이 변해야</strong> 시장 균형이 맞춰져요. 듀레이션·컨벡시티·채권평가·신용 스프레드 전체의 토대.
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">② 발행자 5종류와 ABS의 위치</span>
+          Sovereign / Local Government / Supranational / Quasi-Government / <strong>SPE(→ABS)</strong><br><br>
+          <strong>SPE가 별도로 존재하는 이유:</strong>
+          <ul class="sub-list">
+            <li>Originator 부도 시 ABS 자산 보호 — <strong>bankruptcy remote</strong></li>
+            <li>Originator 신용도와 ABS 신용도 분리</li>
+            <li>특정 자산 풀의 현금흐름만으로 평가 가능</li>
+          </ul>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">③ Seniority — 변제순위와 쿠폰의 관계</span>
+          <strong>발행자 신용도 ≠ 특정 채권 위험</strong>. 같은 발행자라도 순위에 따라 위험·쿠폰이 달라요.<br><br>
+          <ul class="sub-list">
+            <li>Secured Senior — 담보 있음, 쿠폰 최저</li>
+            <li>Unsecured Senior — 담보 없음, 중간</li>
+            <li>Subordinated — 후순위, 쿠폰 높음</li>
+            <li>Equity — 부채보다 항상 후순위</li>
+          </ul>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">④ Affirmative vs Negative Covenants — 키워드 매칭</span>
+          <strong>Affirmative (해야 할 것):</strong> requirement to / must / will<br>
+          → 대표 조항: Cross-Default, Pari Passu<br><br>
+          <strong>Negative (하지 말 것):</strong> prohibition from / restriction on / cannot<br>
+          → 대표 조항: Negative Pledge Clause<br><br>
+          <strong>Incurrence Test:</strong> 재무비율(Debt/EBITDA 등) 충족 시에만 허용하는 조건부 제한.
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">⑤ 세 가지 조항 구분 — Pari Passu / Cross-Default / Negative Pledge</span>
+          <ul class="sub-list">
+            <li><strong>Pari Passu</strong> — "rank <strong>equally</strong>" 기존 senior 채권과 동순위 보장 (affirmative)</li>
+            <li><strong>Cross-Default</strong> — "default on <strong>any other</strong> debt" = 이 채권도 부도 (affirmative)</li>
+            <li><strong>Negative Pledge</strong> — 새 부채가 <strong>더 선순위</strong>가 되는 것 금지 (negative)</li>
+          </ul>
+        </div>
+
+        <div class="weak-item">
+          <span class="concept-head">⑥ Yield Curve 3종류와 역전 메커니즘</span>
+          Normal(우상향) / Flat(평탄) / Inverted(우하향, 단기 &gt; 장기)<br><br>
+          <strong>역전 형성:</strong> 침체 예상 → 금리 인하 기대 → 장기 채권 매수 → 장기 가격 ↑ → 장기 수익률 ↓ → 역전.<br>
+          역전 곡선은 <strong>경기 침체의 선행 지표</strong>로 역사적으로 잘 작동해 왔어요.
+        </div>
+
+      </div>
+    </div>
+
+    <div class="reading-footer">CFA 2026 Level I &nbsp;/&nbsp; Reading 47 &nbsp;/&nbsp; Fixed-Income Instrument Features</div>
+
+  </div><!-- /reading-content -->
+</div><!-- /r47 -->
 
 <script>
   function showScreen(id) {
